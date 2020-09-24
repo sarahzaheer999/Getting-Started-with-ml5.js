@@ -2,7 +2,7 @@
 By Chloe Kim and Sarah Zaheer
 
 
-### Adding a print statement to display the data to look at the object hierarchy in the console of ObjectDetector sketch.
+### Adding a print statement to display the data for object hierarchy in the console of ObjectDetector sketch.
 
 ```
 
