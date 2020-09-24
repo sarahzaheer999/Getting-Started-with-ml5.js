@@ -159,5 +159,5 @@ function drawSkeleton() {
 
 
 
-### Our Approach 
+### What was our approach? 
 
