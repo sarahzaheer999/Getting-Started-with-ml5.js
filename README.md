@@ -5,6 +5,7 @@ By Chloe Kim and Sarah Zaheer
 ### Adding a print statement to display the data for object hierarchy in the console of ObjectDetector sketch.
 
 ```
+
 let video;
 let detector;
 let detections;
