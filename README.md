@@ -154,6 +154,104 @@ function drawSkeleton() {
 
 
 ```
+let video;
+let detector;
+let detections;
+let poseNet;
+let poses = [];
+
+function setup() {
+    createCanvas(480, 360);
+    
+    video = createCapture(VIDEO);
+    video.size(width, height);
+    video.hide();
+   poseNet = ml5.poseNet(video, modelReady);
+poseNet.on('pose', function(results) {
+    poses = results;
+});
+  video.hide();
+    detector = ml5.objectDetector('cocossd', modelReady)
+}
+
+function modelReady(){
+  console.log('model loaded')
+  detect();
+}
+
+function detect(){
+  detector.detect(video, gotResults);
+}
+
+function gotResults(err, results){
+  if(err){
+    console.log(err);
+    return
+  }
+
+  detections = results;
+    print (detections);
+
+  detect();
+}
+
+function draw() {
+    image(video, 0, 0, width, height);
+   drawKeypoints();
+  drawSkeleton();
+
+    if (detections) {
+      detections.forEach(detection => {
+        noStroke();
+        fill(255);
+        strokeWeight(2);
+        text(detection.label, detection.x + 4, detection.y + 10)
+
+        noFill();
+        strokeWeight(3);
+        if(detection.label === 'person'){
+          stroke(0, 255, 0);
+        } else {
+          stroke(0,0, 255);
+        }
+        rect(detection.x, detection.y, detection.width, detection.height);  
+      })
+    } 
+  function drawKeypoints()  {
+  // Loop through all the poses detected
+  for (let i = 0; i < poses.length; i++) {
+    // For each pose detected, loop through all the keypoints
+    let pose = poses[i].pose;
+    for (let j = 0; j < pose.keypoints.length; j++) {
+      // A keypoint is an object describing a body part (like rightArm or leftShoulder)
+      let keypoint = pose.keypoints[j];
+      // Only draw an ellipse is the pose probability is bigger than 0.2
+      if (keypoint.score > 0.2) {
+        fill(0);
+        noStroke();
+        rect(0, 0, 640, 480);
+        fill(255);
+text('Stop looking at me', 150, 150);
+      }
+    }
+  }
+}
+  function drawSkeleton() {
+  // Loop through all the skeletons detected
+  for (let i = 0; i < poses.length; i++) {
+    let skeleton = poses[i].skeleton;
+    // For every skeleton, loop through all body connections
+    for (let j = 0; j < skeleton.length; j++) {
+      let partA = skeleton[j][0];
+      let partB = skeleton[j][1];
+      stroke(255, 0, 0);
+     
+    }
+  }
+}
+
+  
+}
 
 ```
 
