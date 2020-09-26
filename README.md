@@ -157,8 +157,7 @@ function drawSkeleton() {
 let video;
 let detector;
 let detections;
-let poseNet;
-let poses = [];
+
 
 function setup() {
     createCanvas(480, 360);
@@ -166,12 +165,8 @@ function setup() {
     video = createCapture(VIDEO);
     video.size(width, height);
     video.hide();
-   poseNet = ml5.poseNet(video, modelReady);
-poseNet.on('pose', function(results) {
-    poses = results;
-});
-  video.hide();
-    detector = ml5.objectDetector('cocossd', modelReady)
+   
+  detector = ml5.objectDetector('cocossd', modelReady)
 }
 
 function modelReady(){
@@ -197,8 +192,7 @@ function gotResults(err, results){
 
 function draw() {
     image(video, 0, 0, width, height);
-   drawKeypoints();
-  drawSkeleton();
+   
 
     if (detections) {
       detections.forEach(detection => {
@@ -210,52 +204,31 @@ function draw() {
         noFill();
         strokeWeight(3);
         if(detection.label === 'person'){
-          stroke(0, 255, 0);
-        } else {
-          stroke(0,0, 255);
-        }
-        rect(detection.x, detection.y, detection.width, detection.height);  
-      })
-    } 
-  function drawKeypoints()  {
-  // Loop through all the poses detected
-  for (let i = 0; i < poses.length; i++) {
-    // For each pose detected, loop through all the keypoints
-    let pose = poses[i].pose;
-    for (let j = 0; j < pose.keypoints.length; j++) {
-      // A keypoint is an object describing a body part (like rightArm or leftShoulder)
-      let keypoint = pose.keypoints[j];
-      // Only draw an ellipse is the pose probability is bigger than 0.2
-      if (keypoint.score > 0.2) {
-        fill(0);
+          fill(0);
         noStroke();
         rect(0, 0, 640, 480);
         fill(255);
 text('Stop looking at me', 150, 150);
+        
+        } else {
+        stroke(0, 255, 0);
+           rect(detection.x, detection.y, detection.width, detection.height);
+        
+ 
       }
+    })
     }
-  }
-}
-  function drawSkeleton() {
-  // Loop through all the skeletons detected
-  for (let i = 0; i < poses.length; i++) {
-    let skeleton = poses[i].skeleton;
-    // For every skeleton, loop through all body connections
-    for (let j = 0; j < skeleton.length; j++) {
-      let partA = skeleton[j][0];
-      let partB = skeleton[j][1];
-      stroke(255, 0, 0);
-     
-    }
-  }
 }
 
-  
-}
 
 ```
 
 
 
 ### What was our approach? 
+
+Q2 {Stop Looking at me in PoseNet}: We realized the ellipses were showing in the function called drawKeypointsUnder drawKeypoints, we added the black rectangle that fits to the canvas, then we added “Stop Looking at Me” in white over the black rectangle. 
+
+Q3 (Stop Looking at in ObjectDetector}: For ObjectDetector, instead of copying the whole poseNet, we reused the black rectangle and the text “Stop Looking At me” in the “if” statement in the draw function. Therefore, when a person is detected, it will show “Stop Looking At me”
+
 
