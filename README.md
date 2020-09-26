@@ -5,7 +5,6 @@ By Chloe Kim and Sarah Zaheer
 ### Adding a print statement to display the data for object hierarchy in the console of ObjectDetector sketch.
 
 ```
-
 let video;
 let detector;
 let detections;
@@ -70,6 +69,7 @@ function draw() {
 ### "STOP LOOKING AT ME" in  PoseNet sketch
 
 ```
+
 // Copyright (c) 2019 ml5
 //
 // This software is released under the MIT License.
@@ -148,12 +148,12 @@ function drawSkeleton() {
   }
 }
 
-
 ```
 ### "STOP LOOKING AT ME" in  ObjectDetector sketch
 
 
 ```
+
 let video;
 let detector;
 let detections;
@@ -219,7 +219,6 @@ text('Stop looking at me', 150, 150);
     })
     }
 }
-
 
 ```
 
